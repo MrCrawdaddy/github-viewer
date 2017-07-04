@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script data-require="jquery@*" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script data-require="tether@*" data-semver="1.4.0" src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+  <link data-require="bootstrap@*" data-semver="4.0.5" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
+  <script data-require="bootstrap@*" data-semver="4.0.5" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+  <script data-require="angular.js@*" data-semver="4.0.0" src="https://code.angularjs.org/latest/angular.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="script.js"></script>
+  <script src="mainCtrl.js"></script>
+</head>
+
+<body ng-app="githubViewer">
+  <div ng-controller="mainCtrl">
+    <div class="container">
+      <h1>{{ message }}</h1> {{ error }}
+    </div>
+    <div>
+      <div class="container">
+        <div class="form-group">
+          <form class="form-inline" ng-submit="search(username)">
+            <input type="search" required class="form-control" placeholder="Username to find" ng-model="username" />
+            <input type="submit" class="btn btn-primary" value="search" />
+          </form>
+        </div>
+      </div>
+
+      <div class="container" ng-show="user">
+          <div class="row">
+            <div class="col col-md-6">
+              <img ng-src="{{user.avatar_url}}" title="{{user.name}}" />
+            </div>
+            <div class="col col-md-6">
+              <h2>{{user.name}}</h2>
+            </div>
+          </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th><a href="#" ng-click="orderByField='name'; reverseSort = !reverseSort">Name</a></th>
+              <th><a href="#" ng-click="orderByField='stargazers_count'; reverseSort = !reverseSort">Stars</a></th>
+              <th><a href="#" ng-click="orderByField='language'; reverseSort = !reverseSort">Language</a></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="repo in repos | orderBy:orderByField:reverseSort">
+              <td>{{repo.name}}</td>
+              <td>{{repo.stargazers_count | number}}</td>
+              <td>{{repo.language}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
